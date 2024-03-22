@@ -1,8 +1,6 @@
 import { nip19 } from 'nostr-tools';
 
-
 export const formatDataSize = (n, options = {}) => {
-
 	if (options.kBMin && n < 1000) {
 		return '0 KB';
 	}
@@ -19,27 +17,20 @@ export const formatDataSize = (n, options = {}) => {
 };
 
 export const normalizeId = (input) => {
-
 	let npub, pubkey;
 
 	try {
-
 		if (input.indexOf('npub1') === 0) {
-
 			const decoded = nip19.decode(input);
 
 			if (decoded.type === 'npub') {
-
 				pubkey = decoded.data;
 				npub = input;
 			}
-
 		} else {
-
 			npub = nip19.npubEncode(input);
 			pubkey = input;
 		}
-
 	} catch (err) {
 		console.log(err);
 	}
@@ -49,13 +40,10 @@ export const normalizeId = (input) => {
 
 // Deduplicate array while preserving order
 export const uniqueArray = (values) => {
-
 	const unique = [];
 
 	for (let value of values) {
-
 		if (unique.indexOf(value) === -1) {
-
 			unique.push(value);
 		}
 	}

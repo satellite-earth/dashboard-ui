@@ -5,14 +5,13 @@ import Relay from './Relay';
 import Receiver from './Receiver';
 import Database from './Database';
 
-
-class Dashboard extends Component { 
-
+class Dashboard extends Component {
 	render = () => {
-
 		const { status } = this.props;
 
-		if (!status.synced) { return null; }
+		if (!status.synced) {
+			return null;
+		}
 
 		return (
 			<div>
@@ -25,10 +24,8 @@ class Dashboard extends Component {
 }
 
 export default connect(({ layout, status }) => {
-
 	return {
 		layout,
-		status
+		status,
 	};
-
 })(Dashboard);

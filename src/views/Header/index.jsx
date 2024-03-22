@@ -3,11 +3,8 @@ import { connect } from 'react-redux';
 
 import { COLORS } from '../../constants';
 
-
 class Header extends Component {
-
 	render = () => {
-
 		return (
 			<div
 				style={{
@@ -17,7 +14,7 @@ class Header extends Component {
 					height: 48,
 					paddingLeft: 18,
 					paddingRight: 18,
-					borderRadius: 12
+					borderRadius: 12,
 				}}
 			>
 				SATELLITE NODE
@@ -27,9 +24,7 @@ class Header extends Component {
 }
 
 export default connect(({ layout }) => {
-
 	return {
-		layout
+		layout,
 	};
-
 })(Header);

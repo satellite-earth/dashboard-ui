@@ -1,25 +1,20 @@
 import React, { Component } from 'react';
 
-
 class ArrayItems extends Component {
-
 	state = {
 		error: false,
 		add: false,
-		adding: ''
+		adding: '',
 	};
 
-	constructor (props) {
-
+	constructor(props) {
 		super(props);
 
 		this.input = React.createRef();
 	}
 
 	handleAddClicked = () => {
-
 		this.setState({ add: true }, () => {
-
 			if (this.input.current) {
 				this.input.current.select();
 			}
@@ -27,24 +22,19 @@ class ArrayItems extends Component {
 	};
 
 	handleSaveClicked = () => {
-
 		let valid;
 
 		try {
-
-			valid = !this.props.validateItem || this.props.validateItem(this.state.adding);
-
+			valid =
+				!this.props.validateItem || this.props.validateItem(this.state.adding);
 		} catch (err) {
-
 			this.setState({
-				error: true
+				error: true,
 			});
 		}
 
 		if (valid) {
-
 			if (this.props.handleAddItem) {
-
 				this.props.handleAddItem(this.state.adding);
 			}
 
@@ -53,32 +43,30 @@ class ArrayItems extends Component {
 	};
 
 	resetAddState = () => {
-
 		this.setState({
 			error: false,
 			add: false,
-			adding: ''
+			adding: '',
 		});
 	};
 
 	render = () => {
-
 		return (
 			<div>
-				{this.props.items.map(item => {
+				{this.props.items.map((item) => {
 					return (
 						<div
 							key={this.props.itemKey(item)}
 							style={{
 								display: 'flex',
-								alignItems: 'center'
+								alignItems: 'center',
 							}}
 						>
 							{this.props.renderItem(item)}
 							<div
 								onClick={() => this.props.handleRemoveItem(item)}
 								style={{
-									marginLeft: 12
+									marginLeft: 12,
 								}}
 							>
 								[remove]
@@ -88,7 +76,7 @@ class ArrayItems extends Component {
 				})}
 				<div
 					style={{
-						marginTop: 12
+						marginTop: 12,
 					}}
 				>
 					{this.state.add ? (
@@ -96,13 +84,15 @@ class ArrayItems extends Component {
 							style={{
 								display: 'flex',
 								alignItems: 'center',
-								justifyContent: 'space-between'
+								justifyContent: 'space-between',
 							}}
 						>
 							<input
 								ref={this.input}
 								value={this.state.adding}
-								onChange={({ target }) => this.setState({ adding: target.value })}
+								onChange={({ target }) =>
+									this.setState({ adding: target.value })
+								}
 								style={{
 									background: `rgb(41, 42, 43)`,
 									border: 'none',
@@ -113,33 +103,21 @@ class ArrayItems extends Component {
 									height: 32,
 									color: '#FFF',
 									paddingLeft: 10,
-									marginRight: 12
+									marginRight: 12,
 								}}
 							/>
 							<div
 								style={{
 									display: 'flex',
-									alignItems: 'center'
+									alignItems: 'center',
 								}}
 							>
-								<div
-									onClick={this.resetAddState}
-								>
-									[cancel]
-								</div>
-								<div
-									onClick={this.handleSaveClicked}
-								>
-									[save]	
-								</div>
+								<div onClick={this.resetAddState}>[cancel]</div>
+								<div onClick={this.handleSaveClicked}>[save]</div>
 							</div>
 						</div>
 					) : (
-						<div
-							onClick={this.handleAddClicked}
-						>
-							[add item]
-						</div>
+						<div onClick={this.handleAddClicked}>[add item]</div>
 					)}
 				</div>
 			</div>

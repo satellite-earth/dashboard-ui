@@ -4,19 +4,12 @@ import { connect } from 'react-redux';
 import Panel from '../Common/Panel';
 import PanelItemString from '../Common/PanelItemString';
 
-
 class Relay extends Component {
-
 	render = () => {
-
 		return (
-			<Panel
-				name='relay'
-				label='RELAY'
-				open
-			>
+			<Panel name="relay" label="RELAY" open>
 				<PanelItemString
-					label='URL'
+					label="URL"
 					value={`ws://127.0.0.1:${this.props.config.relayPort}`}
 				/>
 			</Panel>
@@ -25,9 +18,7 @@ class Relay extends Component {
 }
 
 export default connect(({ config }) => {
-
 	return {
-		config
+		config,
 	};
-
 })(Relay);

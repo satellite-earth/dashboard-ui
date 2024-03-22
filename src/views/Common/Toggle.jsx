@@ -1,8 +1,6 @@
 import { COLORS } from '../../constants';
 
-
 export default ({ onClick, value }) => {
-
 	return (
 		<div
 			onClick={onClick}
@@ -13,7 +11,7 @@ export default ({ onClick, value }) => {
 				background: value ? COLORS.green : `rgb(41, 42, 43)`,
 				padding: 1,
 				cursor: 'pointer',
-				transition: 'background 0.1s ease'
+				transition: 'background 0.1s ease',
 			}}
 		>
 			<div
@@ -23,7 +21,7 @@ export default ({ onClick, value }) => {
 					background: 'rgb(230, 230, 230)',
 					borderRadius: 12,
 					transform: `translate(${value ? 14 : 0}px)`,
-					transition: 'transform 0.1s ease'
+					transition: 'transform 0.1s ease',
 				}}
 			/>
 		</div>

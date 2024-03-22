@@ -4,13 +4,9 @@ import { connect } from 'react-redux';
 import Panel from '../Common/Panel';
 import { COLORS } from '../../constants';
 
-
 class StatusLog extends Component {
-
 	renderLogs = () => {
-
-		return this.props.logs.map(log => {
-
+		return this.props.logs.map((log) => {
 			return (
 				<div
 					key={log.id}
@@ -21,7 +17,7 @@ class StatusLog extends Component {
 						whiteSpace: 'nowrap',
 						textOverflow: 'ellipsis',
 						display: 'flex',
-    				alignItems: 'center'
+						alignItems: 'center',
 					}}
 				>
 					{log.text}
@@ -31,7 +27,6 @@ class StatusLog extends Component {
 	};
 
 	render = () => {
-
 		return (
 			<div
 				style={{
@@ -44,15 +39,15 @@ class StatusLog extends Component {
 			>
 				<div
 					style={{
-						marginBottom: 12
+						marginBottom: 12,
 					}}
 				>
 					STATUS LOGS
 				</div>
 				<div
-					id='logs_container'
+					id="logs_container"
 					style={{
-						height: '100%'
+						height: '100%',
 					}}
 				>
 					{this.renderLogs()}
@@ -63,10 +58,8 @@ class StatusLog extends Component {
 }
 
 export default connect(({ layout, logs }) => {
-
 	return {
 		layout,
-		logs
+		logs,
 	};
-
 })(StatusLog);

@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 
 import { COLORS } from '../../constants';
 
-
 class Panel extends Component {
-
 	handleToggleOpen = () => {
-
 		console.log('toggle open clicked', this.props.name);
 		// TODO should set config to keep
 		// track of panel open state, this
@@ -15,26 +12,25 @@ class Panel extends Component {
 	};
 
 	render = () => {
-
 		return (
 			<div
 				style={{
 					padding: 18,
 					borderRadius: 12,
 					marginBottom: 12,
-					background: COLORS.primary
+					background: COLORS.primary,
 				}}
 			>
 				<div
 					style={{
 						display: 'flex',
 						justifyContent: 'space-between',
-						marginBottom: 18
+						marginBottom: 18,
 					}}
 				>
 					<div
 						style={{
-							display: 'flex'
+							display: 'flex',
 						}}
 					>
 						{/*<div style={{ marginRight: 4 }}>[icon]</div>*/}
@@ -43,7 +39,7 @@ class Panel extends Component {
 					<div
 						onClick={this.handleToggleOpen}
 						style={{
-							display: 'flex'
+							display: 'flex',
 						}}
 					>
 						<div>[-]</div>

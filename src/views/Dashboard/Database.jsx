@@ -6,29 +6,22 @@ import PanelItem from '../Common/PanelItem';
 
 import { formatDataSize } from '../../functions';
 
-
 class Database extends Component {
-
 	render = () => {
-
 		return (
-			<Panel
-				name='database'
-				label='DATABASE'
-				open
-			>
+			<Panel name="database" label="DATABASE" open>
 				<PanelItem>
 					<div
 						style={{
 							display: 'flex',
-							justifyContent: 'space-between'
+							justifyContent: 'space-between',
 						}}
 					>
+						<div>DATABASE SIZE</div>
 						<div>
-							DATABASE SIZE
-						</div>
-						<div>
-							{formatDataSize(this.props.status.dbCount > 0 ? this.props.status.dbSize : 0)}
+							{formatDataSize(
+								this.props.status.dbCount > 0 ? this.props.status.dbSize : 0,
+							)}
 						</div>
 					</div>
 				</PanelItem>
@@ -36,15 +29,11 @@ class Database extends Component {
 					<div
 						style={{
 							display: 'flex',
-							justifyContent: 'space-between'
+							justifyContent: 'space-between',
 						}}
 					>
-						<div>
-							EVENTS COUNT
-						</div>
-						<div>
-							{this.props.status.dbCount}
-						</div>
+						<div>EVENTS COUNT</div>
+						<div>{this.props.status.dbCount}</div>
 					</div>
 				</PanelItem>
 				<div
@@ -52,7 +41,7 @@ class Database extends Component {
 						display: 'flex',
 						alignItems: 'center',
 						marginTop: 24,
-						justifyContent: 'right'
+						justifyContent: 'right',
 					}}
 				>
 					<div
@@ -61,7 +50,7 @@ class Database extends Component {
 						}}
 						style={{
 							marginLeft: 12,
-							cursor: 'pointer'
+							cursor: 'pointer',
 						}}
 					>
 						[CLEAR]
@@ -72,7 +61,7 @@ class Database extends Component {
 						}}
 						style={{
 							marginLeft: 12,
-							cursor: 'pointer'
+							cursor: 'pointer',
 						}}
 					>
 						[EXPORT]
@@ -84,10 +73,8 @@ class Database extends Component {
 }
 
 export default connect(({ config, status }) => {
-
 	return {
 		config,
-		status
+		status,
 	};
-
 })(Database);

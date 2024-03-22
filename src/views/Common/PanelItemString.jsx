@@ -3,28 +3,24 @@ import React, { Component } from 'react';
 import PanelItem from './PanelItem';
 
 class PanelItemString extends Component {
-
 	render = () => {
-
 		return (
 			<PanelItem>
 				<div
 					style={{
 						display: 'flex',
 						alignItems: 'center',
-						justifyContent: 'space-between'
+						justifyContent: 'space-between',
 					}}
 				>
 					<div
-					style={{
-						display: 'flex',
-						alignItems: 'center',
-						width: '100%'
-					}}
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							width: '100%',
+						}}
 					>
-						<div>
-							{this.props.label}
-						</div>
+						<div>{this.props.label}</div>
 						<input
 							value={this.props.value}
 							readOnly
@@ -36,22 +32,14 @@ class PanelItemString extends Component {
 								background: 'transparent',
 								border: 'none',
 								outline: 'none',
-								fontFamily: 'monospace'
+								fontFamily: 'monospace',
 							}}
 						/>
-						<div>
-							[copy]
-						</div>
-						<div>
-							[qr]
-						</div>
+						<div>[copy]</div>
+						<div>[qr]</div>
 					</div>
 					{this.props.onConfigClicked ? (
-						<div
-							onClick={this.props.onConfigClicked}
-						>
-							[config]
-						</div>
+						<div onClick={this.props.onConfigClicked}>[config]</div>
 					) : null}
 				</div>
 				{this.props.children}

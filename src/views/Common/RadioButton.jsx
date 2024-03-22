@@ -1,8 +1,6 @@
 import { COLORS } from '../../constants';
 
-
 export default ({ onClick, selected }) => {
-
 	return (
 		<div
 			onClick={onClick}
@@ -16,7 +14,7 @@ export default ({ onClick, selected }) => {
 				justifyContent: 'center',
 				background: selected ? COLORS.green : COLORS.secondaryBright,
 				border: `1px solid ${selected ? COLORS.secondaryBright : COLORS.secondary}`,
-				borderRadius: 12
+				borderRadius: 12,
 			}}
 		>
 			<div
@@ -24,7 +22,7 @@ export default ({ onClick, selected }) => {
 					height: 7,
 					width: 7,
 					borderRadius: 12,
-					background: selected ? '#fff': COLORS.secondary
+					background: selected ? '#fff' : COLORS.secondary,
 				}}
 			/>
 		</div>

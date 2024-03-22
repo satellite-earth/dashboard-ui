@@ -2,7 +2,6 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { thunk } from 'redux-thunk';
 import logger from 'redux-logger';
 
-
 import { PROD } from '../constants';
 
 import config from './Config';
@@ -11,11 +10,9 @@ import layout from './Layout';
 import logs from './Logs';
 import status from './Status';
 
-
-const middleware = [ thunk ];
+const middleware = [thunk];
 
 if (!PROD) {
-
 	middleware.push(logger);
 }
 
@@ -26,9 +23,9 @@ const Model = (initialState = {}) => {
 			conn,
 			layout,
 			logs,
-			status
+			status,
 		}),
-		applyMiddleware(...middleware)
+		applyMiddleware(...middleware),
 	);
 };
 

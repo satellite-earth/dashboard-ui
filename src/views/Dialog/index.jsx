@@ -4,28 +4,20 @@ import { connect } from 'react-redux';
 //import Model, { MenuSections } from '../../Model';
 import { COLORS } from '../../constants';
 
-
 class Dialog extends Component {
-
 	handleSelectItem = (item) => {
-
 		Model.dispatch({
 			type: 'layout/dialog',
-			data: item
+			data: item,
 		});
 	};
 
 	render = () => {
-
 		let view = null;
 
 		// TODO render dialog panel conditionally
 
-		return (
-			<div>
-				{view}
-			</div>
-		);
+		return <div>{view}</div>;
 
 		// return (
 		// 	<div>
@@ -51,9 +43,7 @@ class Dialog extends Component {
 }
 
 export default connect(({ layout }) => {
-
 	return {
-		layout
+		layout,
 	};
-
 })(Dialog);

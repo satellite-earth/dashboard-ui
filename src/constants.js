@@ -1,4 +1,3 @@
-
 export const PROD = false;
 
 export const CONTENT_MAX_WIDTH = 1512;
@@ -13,5 +12,5 @@ export const COLORS = {
 	satelliteGold: 'rgb(219, 170, 49)',
 	blue: 'rgb(62, 137, 184)',
 	red: 'rgb(219, 40, 40)',
-	green: 'rgb(40, 167, 69)'
+	green: 'rgb(40, 167, 69)',
 };
