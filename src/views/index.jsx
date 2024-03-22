@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Model from '../Model';
+import Model from '../model';
 import NodeInterface from '../interfaces/Node';
 import { COLORS, CONTENT_MAX_WIDTH, MOBILE_BREAKPOINT } from '../constants';
 
