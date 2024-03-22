@@ -1,5 +1,5 @@
 {
-	"name": "satellite-control",
+	"name": "dashboard-ui",
 	"private": true,
 	"version": "0.0.1",
 	"type": "module",

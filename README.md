@@ -1,5 +1,5 @@
 # Satellite Control
 
-satellite-control is a gui dashboard for controlling a satellite-node
+dashboard-ui is a gui dashboard for controlling a node
 
 TODO docs
