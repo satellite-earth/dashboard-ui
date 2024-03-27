@@ -153,6 +153,7 @@ class Receiver extends Component {
 							{[1, 2, 3].map((z) => {
 								return (
 									<div
+										key={z}
 										style={{
 											marginLeft: 16,
 											display: 'flex',

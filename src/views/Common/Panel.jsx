@@ -1,54 +1,37 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 
 import { COLORS } from '../../constants';
+import styled from '@emotion/styled';
+import TextButton from './TextButton.jsx';
 
-class Panel extends Component {
-	handleToggleOpen = () => {
-		console.log('toggle open clicked', this.props.name);
-		// TODO should set config to keep
-		// track of panel open state, this
-		// will be more important when there
-		// are many panels
-	};
+const StyledPanel = styled.div`
+	padding: 18px;
+	border-radius: 12px;
+	margin-bottom: 12px;
+	background: ${COLORS.primary};
 
-	render = () => {
-		return (
-			<div
-				style={{
-					padding: 18,
-					borderRadius: 12,
-					marginBottom: 12,
-					background: COLORS.primary,
-				}}
-			>
-				<div
-					style={{
-						display: 'flex',
-						justifyContent: 'space-between',
-						marginBottom: 18,
-					}}
-				>
-					<div
-						style={{
-							display: 'flex',
-						}}
-					>
-						{/*<div style={{ marginRight: 4 }}>[icon]</div>*/}
-						<div>{this.props.label}</div>
-					</div>
-					<div
-						onClick={this.handleToggleOpen}
-						style={{
-							display: 'flex',
-						}}
-					>
-						<div>[-]</div>
-					</div>
+	.header {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 18px;
+	}
+`;
+
+function Panel({ label, children }) {
+	const [open, setOpen] = useState(true);
+
+	return (
+		<StyledPanel>
+			<div className="header">
+				<div>
+					{/* <div style={{ marginRight: 4 }}>[icon]</div> */}
+					<div>{label}</div>
 				</div>
-				{this.props.children}
+				<TextButton onClick={() => setOpen(!open)}>[-]</TextButton>
 			</div>
-		);
-	};
+			{open && children}
+		</StyledPanel>
+	);
 }
 
 export default Panel;
