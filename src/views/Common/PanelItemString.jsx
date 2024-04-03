@@ -1,23 +1,8 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 
 import PanelItem from './PanelItem';
 import TextButton from './TextButton.jsx';
-
-function CopyButton({ value }) {
-	const [copied, setCopied] = useState(false);
-
-	const copy = () => {
-		if (navigator.clipboard?.writeText) {
-			navigator.clipboard.writeText(value);
-			setCopied(true);
-			setTimeout(() => setCopied(false), 500);
-		}
-	};
-
-	return (
-		<TextButton onClick={copy}>{copied ? '[copied]' : '[copy]'}</TextButton>
-	);
-}
+import CopyButton from './CopyButton.jsx';
 
 class PanelItemString extends Component {
 	render = () => {

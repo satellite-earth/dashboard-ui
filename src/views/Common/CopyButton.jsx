@@ -1,0 +1,19 @@
+import { useState } from 'react';
+
+import TextButton from './TextButton.jsx';
+
+export default function CopyButton({ value }) {
+	const [copied, setCopied] = useState(false);
+
+	const copy = () => {
+		if (navigator.clipboard?.writeText) {
+			navigator.clipboard.writeText(value);
+			setCopied(true);
+			setTimeout(() => setCopied(false), 500);
+		}
+	};
+
+	return (
+		<TextButton onClick={copy}>{copied ? '[copied]' : '[copy]'}</TextButton>
+	);
+}
