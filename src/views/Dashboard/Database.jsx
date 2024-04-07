@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import Panel from '../Common/Panel';
 import PanelItem from '../Common/PanelItem';
+import TextButton from '../Common/TextButton.jsx';
 
 import { formatDataSize } from '../../functions';
 
@@ -44,28 +45,22 @@ class Database extends Component {
 						justifyContent: 'right',
 					}}
 				>
-					<div
-						onClick={() => {
-							window.node.clearDatabase();
-						}}
+					<TextButton
+						onClick={() => window.node.clearDatabase()}
 						style={{
 							marginLeft: 12,
-							cursor: 'pointer',
 						}}
 					>
 						[CLEAR]
-					</div>
-					<div
-						onClick={() => {
-							window.node.exportDatabase();
-						}}
+					</TextButton>
+					<TextButton
+						onClick={() => window.node.exportDatabase()}
 						style={{
 							marginLeft: 12,
-							cursor: 'pointer',
 						}}
 					>
 						[EXPORT]
-					</div>
+					</TextButton>
 				</div>
 			</Panel>
 		);

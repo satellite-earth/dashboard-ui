@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
 import PanelItem from './PanelItem';
+import TextButton from './TextButton.jsx';
+import CopyButton from './CopyButton.jsx';
 
 class PanelItemString extends Component {
 	render = () => {
@@ -35,8 +37,8 @@ class PanelItemString extends Component {
 								fontFamily: 'monospace',
 							}}
 						/>
-						<div>[copy]</div>
-						<div>[qr]</div>
+						<CopyButton value={this.props.value} />
+						<TextButton>[qr]</TextButton>
 					</div>
 					{this.props.onConfigClicked ? (
 						<div onClick={this.props.onConfigClicked}>[config]</div>
