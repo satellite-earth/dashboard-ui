@@ -34,14 +34,10 @@ class NodeInterface {
 		// and resume listening when internet available
 		if (this.env === 'local') {
 			window.addEventListener('online', () => {
-				//console.log('called online handler');
-
 				this.autoListen();
 			});
 
 			window.addEventListener('offline', () => {
-				//console.log('called offline handler');
-
 				// Tell node receiver to stop listening
 				this.action('RECEIVER_UNLISTEN');
 			});
@@ -83,7 +79,7 @@ class NodeInterface {
 		}
 
 		try {
-			this.ws = new WebSocket(this.url);
+			this.ws = new WebSocket(this.url ?? '/');
 		} catch (err) {
 			console.log('Failed to connect', err);
 		}
@@ -176,9 +172,7 @@ class NodeInterface {
 			// Parse control message(s) received from node
 			const data = JSON.parse(message.data);
 
-			if (data[0] !== 'CONTROL') {
-				return;
-			}
+			if (data[0] !== 'CONTROL') return;
 
 			payload = Array.isArray(data[1]) ? data[1] : [data[1]];
 		} catch (err) {
@@ -191,9 +185,7 @@ class NodeInterface {
 			// can update its local state to match node
 			Model.dispatch(action);
 
-			if (!action.data || this.env !== 'local') {
-				continue;
-			}
+			if (!action.data || this.env !== 'local') continue;
 
 			if (action.type === 'status/set') {
 				// Special case: When connecting to local node for

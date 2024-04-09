@@ -4,6 +4,7 @@ const INITIAL_STATE = {
 	cacheLevel: 3,
 	autoListen: false,
 	logsEnabled: true,
+	owner: '',
 	pubkeys: [],
 	relays: [],
 };

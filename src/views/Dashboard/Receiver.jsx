@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component, useState } from 'react';
+import { connect, useSelector } from 'react-redux';
+import { nip19 } from 'nostr-tools';
 
 import ArrayItems from '../Common/ArrayItems';
 import Panel from '../Common/Panel';
@@ -9,6 +10,45 @@ import RadioButton from '../Common/RadioButton';
 
 import { COLORS } from '../../constants';
 import { normalizeId, uniqueArray } from '../../functions';
+import Input from '../Common/Input.jsx';
+import TextButton from '../Common/TextButton.jsx';
+
+function OwnerPubkeyInput() {
+	const [editing, setEditing] = useState(false);
+	const config = useSelector((state) => state.config);
+
+	const [newNpub, setNewNpub] = useState(config.owner);
+
+	if (editing) {
+		const save = (e) => {
+			e.preventDefault();
+
+			const normalized = normalizeId(newNpub);
+			window.node.action('RECEIVER_CONFIG', {
+				owner: normalized.pubkey,
+			});
+			setEditing(false);
+		};
+		const cancel = () => {
+			setEditing(false);
+			setNewNpub(config.owner);
+		};
+
+		return (
+			<form onSubmit={save} style={{ display: 'flex', gap: 10 }}>
+				<Input value={newNpub} onChange={(e) => setNewNpub(e.target.value)} />
+				<TextButton onClick={cancel}>[cancel]</TextButton>
+				<TextButton type="submit">[save]</TextButton>
+			</form>
+		);
+	}
+	return (
+		<div style={{ display: 'flex', gap: 10 }}>
+			<p>{nip19.npubEncode(config.owner)}</p>
+			<TextButton onClick={() => setEditing(true)}>[edit]</TextButton>
+		</div>
+	);
+}
 
 class Receiver extends Component {
 	render = () => {
@@ -35,7 +75,18 @@ class Receiver extends Component {
 							marginBottom: 12,
 						}}
 					>
-						MY NPUBS
+						OWNER NPUB
+					</div>
+					<OwnerPubkeyInput />
+				</PanelItem>
+				<PanelItem>
+					<div
+						style={{
+							height: 20,
+							marginBottom: 12,
+						}}
+					>
+						ADDITIONAL NPUBS
 					</div>
 					<ArrayItems
 						items={this.props.config.pubkeys}
@@ -92,8 +143,8 @@ class Receiver extends Component {
 
 							const uniqueUrls = uniqueArray([
 								add,
-								...this.props.config.relays.map((item) => {
-									return item.url;
+								...this.props.config.relays.map((relay) => {
+									return relay.url;
 								}),
 							]);
 
@@ -105,8 +156,8 @@ class Receiver extends Component {
 						}}
 						handleRemoveItem={(value) => {
 							window.node.action('RECEIVER_CONFIG', {
-								relays: this.props.config.relays.filter((item) => {
-									return item.url !== value.url;
+								relays: this.props.config.relays.filter((relay) => {
+									return relay.url !== value.url;
 								}),
 							});
 						}}
