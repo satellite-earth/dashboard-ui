@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Panel from '../Common/Panel';
 import PanelItem from '../Common/PanelItem';
-import TextButton from '../Common/TextButton.jsx';
+import TextButton from '../../components/TextButton';
 
 import { formatDataSize } from '../../functions';
 
@@ -19,11 +19,7 @@ class Database extends Component {
 						}}
 					>
 						<div>DATABASE SIZE</div>
-						<div>
-							{formatDataSize(
-								this.props.status.dbCount > 0 ? this.props.status.dbSize : 0,
-							)}
-						</div>
+						<div>{formatDataSize(this.props.status.dbCount > 0 ? this.props.status.dbSize : 0)}</div>
 					</div>
 				</PanelItem>
 				<PanelItem>

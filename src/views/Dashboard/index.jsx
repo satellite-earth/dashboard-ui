@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Relay from './Relay';
@@ -6,6 +6,10 @@ import Receiver from './Receiver';
 import Database from './Database';
 
 class Dashboard extends Component {
+	componentDidMount() {
+		window.node.action('SYNC');
+	}
+
 	render = () => {
 		const { status } = this.props;
 

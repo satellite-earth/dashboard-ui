@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import TextButton from './TextButton.jsx';
+import TextButton from '../../components/TextButton';
 import Input from './Input.jsx';
 
 function InlineForm({ onCancel, onSubmit }) {
@@ -21,11 +21,7 @@ function InlineForm({ onCancel, onSubmit }) {
 				gap: 12,
 			}}
 		>
-			<Input
-				value={value}
-				onChange={({ target }) => setValue(target.value)}
-				required
-			/>
+			<Input value={value} onChange={({ target }) => setValue(target.value)} required />
 			<div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
 				<TextButton onClick={onCancel}>[cancel]</TextButton>
 				<TextButton type="submit">[save]</TextButton>
@@ -107,10 +103,7 @@ class ArrayItems extends Component {
 					}}
 				>
 					{this.state.add ? (
-						<InlineForm
-							onCancel={() => this.resetAddState()}
-							onSubmit={(v) => this.handleAddItem(v)}
-						/>
+						<InlineForm onCancel={() => this.resetAddState()} onSubmit={(v) => this.handleAddItem(v)} />
 					) : (
 						<TextButton onClick={this.handleAddClicked}>[add item]</TextButton>
 					)}

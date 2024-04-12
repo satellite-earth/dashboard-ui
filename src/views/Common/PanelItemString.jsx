@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import PanelItem from './PanelItem';
-import TextButton from './TextButton.jsx';
+import TextButton from '../../components/TextButton';
 import CopyButton from './CopyButton.jsx';
 
 class PanelItemString extends Component {
@@ -40,9 +40,7 @@ class PanelItemString extends Component {
 						<CopyButton value={this.props.value} />
 						<TextButton>[qr]</TextButton>
 					</div>
-					{this.props.onConfigClicked ? (
-						<div onClick={this.props.onConfigClicked}>[config]</div>
-					) : null}
+					{this.props.onConfigClicked ? <div onClick={this.props.onConfigClicked}>[config]</div> : null}
 				</div>
 				{this.props.children}
 			</PanelItem>
