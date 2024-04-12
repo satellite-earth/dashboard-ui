@@ -4,3 +4,10 @@ body {
 	margin: 0;
 	font-family: monospace;
 }
+
+#root,
+body,
+html {
+	height: 100%;
+	width: 100%;
+}

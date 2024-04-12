@@ -1,17 +1,28 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import { RouterProvider, createHashRouter } from 'react-router-dom';
 
 import Model from '../model';
 import NodeInterface from '../interfaces/Node';
-import { COLORS, CONTENT_MAX_WIDTH, MOBILE_BREAKPOINT } from '../constants';
+import RequireAuth from '../components/RequireAuth';
 
-import Header from './Header';
-import Dashboard from './Dashboard';
-import StatusLog from './StatusLog';
+import DashboardLayout from './DashboardLayout';
 import Dialog from './Dialog';
-import Panel from './Common/Panel';
+import LoginView from './Login';
 
-class GUI extends Component {
+const router = createHashRouter([
+	{ path: 'login', element: <LoginView /> },
+	{
+		path: '',
+		element: (
+			<RequireAuth>
+				<DashboardLayout />
+			</RequireAuth>
+		),
+	},
+]);
+
+class App extends Component {
 	componentDidMount = () => {
 		if (!window.node) {
 			window.node = new NodeInterface();
@@ -42,95 +53,6 @@ class GUI extends Component {
 		});
 	};
 
-	renderLayoutWide = () => {
-		const { width } = this.props.layout;
-
-		return (
-			<div>
-				<div
-					style={{
-						background: '#000',
-						paddingTop: 12,
-						height: 60,
-						position: 'fixed',
-						width: Math.min(width, CONTENT_MAX_WIDTH) - 24,
-						top: 0,
-						left:
-							(width > CONTENT_MAX_WIDTH
-								? (width - CONTENT_MAX_WIDTH) / 2
-								: 0) + 12,
-						zIndex: 1,
-					}}
-				>
-					<Header />
-				</div>
-				<div>
-					<div
-						style={{
-							width: Math.min(width, CONTENT_MAX_WIDTH) / 2 - 6,
-							paddingTop: 72,
-							paddingLeft:
-								width > CONTENT_MAX_WIDTH ? (width - CONTENT_MAX_WIDTH) / 2 : 0,
-						}}
-					>
-						<div
-							style={{
-								paddingLeft: 12,
-							}}
-						>
-							<Dashboard />
-						</div>
-					</div>
-					<div
-						style={{
-							width: Math.min(width, CONTENT_MAX_WIDTH) / 2 - 18,
-							position: 'fixed',
-							top: 72,
-							right:
-								(width > CONTENT_MAX_WIDTH
-									? (width - CONTENT_MAX_WIDTH) / 2
-									: 0) + 12,
-						}}
-					>
-						<StatusLog />
-					</div>
-				</div>
-			</div>
-		);
-	};
-
-	renderLayoutMobile = () => {
-		const { width } = this.props.layout;
-
-		return (
-			<div>
-				<div
-					style={{
-						background: '#000',
-						paddingTop: 12,
-						height: 60,
-						position: 'fixed',
-						width: width - 24,
-						top: 0,
-						left: 12,
-						zIndex: 1,
-					}}
-				>
-					<Header />
-				</div>
-				<div
-					style={{
-						paddingTop: 72,
-						paddingLeft: 12,
-						paddingRight: 12,
-					}}
-				>
-					<Dashboard />
-				</div>
-			</div>
-		);
-	};
-
 	render = () => {
 		const { width } = this.props.layout;
 
@@ -140,18 +62,14 @@ class GUI extends Component {
 		}
 
 		if (!this.props.conn.open) {
-			// TODO make connecting page
-
 			return <div>CONNECTING . . .</div>;
 		}
 
 		return (
-			<div>
-				{width < MOBILE_BREAKPOINT
-					? this.renderLayoutMobile()
-					: this.renderLayoutWide()}
+			<>
+				<RouterProvider router={router} />
 				<Dialog />
-			</div>
+			</>
 		);
 	};
 }
@@ -163,4 +81,4 @@ export default connect(({ conn, config, status, layout }) => {
 		status,
 		layout,
 	};
-})(GUI);
+})(App);

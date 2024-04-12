@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import TextButton from './TextButton.jsx';
+import TextButton from '../../components/TextButton';
 
 export default function CopyButton({ value }) {
 	const [copied, setCopied] = useState(false);
@@ -13,7 +13,5 @@ export default function CopyButton({ value }) {
 		}
 	};
 
-	return (
-		<TextButton onClick={copy}>{copied ? '[copied]' : '[copy]'}</TextButton>
-	);
+	return <TextButton onClick={copy}>{copied ? '[copied]' : '[copy]'}</TextButton>;
 }

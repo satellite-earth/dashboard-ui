@@ -11,7 +11,7 @@ import RadioButton from '../Common/RadioButton';
 import { COLORS } from '../../constants';
 import { normalizeId, uniqueArray } from '../../functions';
 import Input from '../Common/Input.jsx';
-import TextButton from '../Common/TextButton.jsx';
+import TextButton from '../../components/TextButton';
 
 function OwnerPubkeyInput() {
 	const [editing, setEditing] = useState(false);
@@ -93,10 +93,7 @@ class Receiver extends Component {
 						handleAddItem={(value) => {
 							const normalized = normalizeId(value);
 							window.node.action('RECEIVER_CONFIG', {
-								pubkeys: uniqueArray([
-									normalized.pubkey,
-									...this.props.config.pubkeys,
-								]),
+								pubkeys: uniqueArray([normalized.pubkey, ...this.props.config.pubkeys]),
 							});
 						}}
 						handleRemoveItem={(value) => {
@@ -132,10 +129,7 @@ class Receiver extends Component {
 						handleAddItem={(value) => {
 							let add;
 
-							if (
-								value.indexOf('wss://') === 0 ||
-								value.indexOf('ws://') === 0
-							) {
+							if (value.indexOf('wss://') === 0 || value.indexOf('ws://') === 0) {
 								add = value;
 							} else {
 								add = `wss://${value}`;

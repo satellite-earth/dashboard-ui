@@ -1,6 +1,14 @@
 import Model from '../model';
+import createDefer from '../helpers/deferred';
 
 class NodeInterface {
+	connected = false;
+	authenticated = false;
+	challenge = '';
+
+	sentAuthId = '';
+	authPromise = null;
+
 	constructor(options = {}) {
 		// this.config = config;
 		// this.status = status;
@@ -64,7 +72,7 @@ class NodeInterface {
 
 		this.ws.send(
 			JSON.stringify(
-				['CONTROL', this.auth, type, data].filter((item) => {
+				['CONTROL', type, data].filter((item) => {
 					return item;
 				}),
 			),
@@ -89,9 +97,33 @@ class NodeInterface {
 		}
 
 		// Attach events handlers on websocket
-		this.ws.addEventListener('message', this.onControlMessage);
+		this.ws.addEventListener('message', this.handleMessage);
 		this.ws.addEventListener('close', this.onControlClose);
 		this.ws.addEventListener('open', this.onControlOpen);
+	}
+
+	authenticate(auth) {
+		if (!this.connected) throw new Error('Not connected');
+
+		const p = (this.authPromise = createDefer());
+
+		if (typeof auth === 'string') {
+			// CONTROL auth
+			this.action('AUTH', auth);
+		} else {
+			// NIP-42 auth
+			this.sentAuthId = auth.id;
+			this.ws.send(JSON.stringify(['AUTH', auth]));
+		}
+
+		// auth timeout
+		const timeout = setTimeout(() => {
+			p.reject(new Error('Timeout'));
+			this.authPromise = null;
+		}, 5_000);
+		p.then(() => clearTimeout(timeout));
+
+		return p;
 	}
 
 	// Close connection and stop trying to reconnect
@@ -137,13 +169,12 @@ class NodeInterface {
 	onControlOpen = () => {
 		console.log('gui connected to local relay');
 
-		// Ask node for its config and status on connect
-		this.action('SYNC');
-
 		Model.dispatch({
 			type: 'conn/status',
 			data: { open: true },
 		});
+
+		this.connected = true;
 	};
 
 	onControlClose = () => {
@@ -152,7 +183,7 @@ class NodeInterface {
 		if (this.ws) {
 			// Cleanup listeners
 
-			this.ws.removeEventListener('message', this.onControlMessage);
+			this.ws.removeEventListener('message', this.handleMessage);
 			this.ws.removeEventListener('close', this.onControlClose);
 			this.ws.removeEventListener('open', this.onControlOpen);
 
@@ -163,39 +194,84 @@ class NodeInterface {
 			type: 'conn/status',
 			data: { open: false },
 		});
+
+		this.connected = false;
 	};
 
-	onControlMessage = (message) => {
-		let payload;
-
+	handleMessage = (message) => {
 		try {
 			// Parse control message(s) received from node
 			const data = JSON.parse(message.data);
 
-			if (data[0] !== 'CONTROL') return;
-
-			payload = Array.isArray(data[1]) ? data[1] : [data[1]];
+			switch (data[0]) {
+				case 'CONTROL':
+					const payload = Array.isArray(data[1]) ? data[1] : [data[1]];
+					this.handleControlMessage(payload);
+					break;
+				case 'AUTH':
+					this.handleAuthMessage(data);
+					break;
+				case 'OK':
+					this.handleOkMessage(data);
+					break;
+			}
 		} catch (err) {
 			console.log(err);
 		}
-
-		for (let action of payload) {
-			// Pass control messages received from the
-			// node directly to reduc store so the app
-			// can update its local state to match node
-			Model.dispatch(action);
-
-			if (!action.data || this.env !== 'local') continue;
-
-			if (action.type === 'status/set') {
-				// Special case: When connecting to local node for
-				// the first time, (maybe) send autolisten message
-				if (action.data.synced) {
-					this.autoListen();
-				}
-			}
-		}
 	};
+
+	handleAuthMessage(message) {
+		this.challenge = message[1] ?? '';
+	}
+
+	handleOkMessage(data) {
+		const id = data[1];
+		const success = data[2];
+		const message = data[3];
+
+		if (id === this.sentAuthId && this.authPromise) {
+			if (success) {
+				this.authenticated = true;
+				this.authPromise.resolve(message);
+			} else this.authPromise.reject(new Error(message ?? 'Rejected'));
+			this.authPromise = null;
+		}
+	}
+
+	handleControlMessage(payload) {
+		for (let action of payload) {
+			this.handleControlAction(action);
+		}
+	}
+
+	handleControlAction(action) {
+		switch (action.type) {
+			case 'AUTH':
+				if (action.data) {
+					this.authenticated = true;
+					// TODO: add message to CONTROL AUTH
+					this.authPromise.resolve('');
+				} else this.authPromise.reject(new Error('Rejected'));
+				this.authPromise = null;
+				break;
+			default:
+				// Pass control messages received from the
+				// node directly to reduc store so the app
+				// can update its local state to match node
+				Model.dispatch(action);
+
+				if (!action.data || this.env !== 'local') return;
+
+				if (action.type === 'status/set') {
+					// Special case: When connecting to local node for
+					// the first time, (maybe) send autolisten message
+					if (action.data.synced) {
+						this.autoListen();
+					}
+				}
+				break;
+		}
+	}
 }
 
 export default NodeInterface;
