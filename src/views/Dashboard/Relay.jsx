@@ -9,10 +9,7 @@ export default function Relay() {
 
 	return (
 		<Panel name="relay" label="RELAY" open>
-			<PanelItemString
-				label="URL"
-				value={`ws://127.0.0.1:${config.relayPort}`}
-			/>
+			<PanelItemString label="URL" value={`ws://127.0.0.1:${config.relayPort}`} />
 		</Panel>
 	);
 }

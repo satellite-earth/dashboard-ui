@@ -23,8 +23,8 @@ The dashboard attempts to automatically establish a websocket connection to a lo
 
 Once you've got a local private node running (refer to the link above) to make the connection you'll need a connection string with three query params:
 
--  `auth` (the `AUTH` env variable passed to the private node)
--  `url` (the stringified url-encoded url of the private node)
--  `evv` (must be equal to `local`)
+- `auth` (the `AUTH` env variable passed to the private node)
+- `url` (the stringified url-encoded url of the private node)
+- `evv` (must be equal to `local`)
 
 In the near future connecting to the node with NIP-42 will be supported as well to preclude the necessity of a shared secret between the dashboard and private node.

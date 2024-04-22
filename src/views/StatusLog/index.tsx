@@ -7,9 +7,7 @@ type LogType = { id: string; text: string };
 
 export default function StatusLog() {
 	const { height } = useClientSize();
-	const logs = useSelector<{ logs: LogType[] }, LogType[]>(
-		(state) => state.logs,
-	);
+	const logs = useSelector<{ logs: LogType[] }, LogType[]>((state) => state.logs);
 
 	const renderLogs = () => {
 		return logs.map((log) => {

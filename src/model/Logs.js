@@ -5,9 +5,7 @@ const Format = (logs, resize) => {
 		const container = document.getElementById('logs_container');
 
 		if (container) {
-			window._logsMax = Math.floor(
-				(container.getBoundingClientRect().height - 21) / 21,
-			);
+			window._logsMax = Math.floor((container.getBoundingClientRect().height - 21) / 21);
 		}
 	}
 

@@ -16,9 +16,5 @@ export default function TextButton({
 	isLoading,
 	...props
 }: ButtonHTMLAttributes<HTMLButtonElement> & { isLoading?: boolean }) {
-	return (
-		<StyledButton {...props}>
-			{isLoading ? '[Loading...]' : children}
-		</StyledButton>
-	);
+	return <StyledButton {...props}>{isLoading ? '[Loading...]' : children}</StyledButton>;
 }
