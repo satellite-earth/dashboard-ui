@@ -25,6 +25,6 @@ Once you've got a local private node running (refer to the link above) to make t
 
 - `auth` (the `AUTH` env variable passed to the private node)
 - `url` (the stringified url-encoded url of the private node)
-- `evv` (must be equal to `local`)
+- `env` (must be equal to `local`)
 
 In the near future connecting to the node with NIP-42 will be supported as well to preclude the necessity of a shared secret between the dashboard and private node.
