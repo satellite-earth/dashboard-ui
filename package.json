@@ -15,7 +15,8 @@
 		"dev": "vite",
 		"build": "vite build",
 		"preview": "vite preview",
-		"format": "prettier -w ."
+		"format": "prettier -w .",
+		"test": "echo no tests"
 	},
 	"author": {
 		"name": "Stuart Bowman",
