@@ -1,10 +1,10 @@
-import { EventTemplate, NostrEvent } from 'nostr-tools';
+import { EventTemplate, NostrEvent, VerifiedEvent } from 'nostr-tools';
 
 declare global {
 	interface Window {
 		nostr?: {
 			getPublicKey: () => Promise<string> | string;
-			signEvent: (event: EventTemplate) => Promise<NostrEvent> | NostrEvent;
+			signEvent: (event: EventTemplate) => Promise<VerifiedEvent> | VerifiedEvent;
 			getRelays?: () => Record<string, { read: boolean; write: boolean }> | string[];
 			nip04?: {
 				encrypt: (pubkey: string, plaintext: string) => Promise<string> | string;

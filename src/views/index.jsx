@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { RouterProvider, createHashRouter } from 'react-router-dom';
 
 import Model from '../model';
-import NodeInterface from '../interfaces/Node';
 import RequireAuth from '../components/RequireAuth';
+import node from '../services/node';
 
 import DashboardLayout from './DashboardLayout';
 import Dialog from './Dialog';
@@ -24,21 +24,13 @@ const router = createHashRouter([
 
 class App extends Component {
 	componentDidMount = () => {
-		if (!window.node) {
-			window.node = new NodeInterface();
-			window.node.initialize();
-		}
-
 		window.addEventListener('resize', this.handleResize);
 
 		this.handleResize();
 	};
 
 	componentWillUnmount = () => {
-		if (window.node) {
-			window.node.disconnect();
-			window.node = null;
-		}
+		node.disconnect();
 
 		window.removeEventListener('resize', this.handleResize);
 	};

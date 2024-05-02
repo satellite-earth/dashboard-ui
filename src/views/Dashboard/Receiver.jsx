@@ -10,8 +10,9 @@ import RadioButton from '../Common/RadioButton';
 
 import { COLORS } from '../../constants';
 import { normalizeId, uniqueArray } from '../../functions';
-import Input from '../Common/Input.jsx';
+import Input from '../Common/Input';
 import TextButton from '../../components/TextButton';
+import node from '../../services/node';
 
 function OwnerPubkeyInput() {
 	const [editing, setEditing] = useState(false);
@@ -24,7 +25,7 @@ function OwnerPubkeyInput() {
 			e.preventDefault();
 
 			const normalized = normalizeId(newNpub);
-			window.node.action('RECEIVER_CONFIG', {
+			node.controlAction('RECEIVER_CONFIG', {
 				owner: normalized.pubkey,
 			});
 			setEditing(false);
@@ -57,13 +58,13 @@ class Receiver extends Component {
 				<PanelItemToggle
 					label="LISTENER ACTIVE"
 					value={this.props.status.listening}
-					onClick={() => window.node.toggleListen()}
+					onClick={() => node.toggleListen()}
 				/>
 				<PanelItemToggle
 					label="AUTO LISTEN"
 					value={this.props.config.autoListen}
 					onClick={() =>
-						window.node.action('SET_CONFIG', {
+						node.controlAction('SET_CONFIG', {
 							autoListen: !this.props.config.autoListen,
 						})
 					}
@@ -92,12 +93,12 @@ class Receiver extends Component {
 						items={this.props.config.pubkeys}
 						handleAddItem={(value) => {
 							const normalized = normalizeId(value);
-							window.node.action('RECEIVER_CONFIG', {
+							node.controlAction('RECEIVER_CONFIG', {
 								pubkeys: uniqueArray([normalized.pubkey, ...this.props.config.pubkeys]),
 							});
 						}}
 						handleRemoveItem={(value) => {
-							window.node.action('RECEIVER_CONFIG', {
+							node.controlAction('RECEIVER_CONFIG', {
 								pubkeys: this.props.config.pubkeys.filter((pubkey) => {
 									return pubkey !== value;
 								}),
@@ -142,14 +143,14 @@ class Receiver extends Component {
 								}),
 							]);
 
-							window.node.action('RECEIVER_CONFIG', {
+							node.controlAction('RECEIVER_CONFIG', {
 								relays: uniqueUrls.map((url) => {
 									return { url };
 								}),
 							});
 						}}
 						handleRemoveItem={(value) => {
-							window.node.action('RECEIVER_CONFIG', {
+							node.controlAction('RECEIVER_CONFIG', {
 								relays: this.props.config.relays.filter((relay) => {
 									return relay.url !== value.url;
 								}),
@@ -217,7 +218,7 @@ class Receiver extends Component {
 										<RadioButton
 											selected={z === this.props.config.cacheLevel}
 											onClick={() => {
-												window.node.action('RECEIVER_CONFIG', {
+												node.controlAction('RECEIVER_CONFIG', {
 													cacheLevel: z,
 												});
 											}}

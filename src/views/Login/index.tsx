@@ -1,5 +1,5 @@
 import { FormEventHandler, useEffect, useState } from 'react';
-import { NostrEvent, nip42 } from 'nostr-tools';
+import { EventTemplate, VerifiedEvent } from 'nostr-tools';
 import styled from '@emotion/styled';
 
 import Input from '../Common/Input';
@@ -7,6 +7,7 @@ import TextButton from '../../components/TextButton';
 import Panel from '../Common/Panel';
 import NodeInterface from '../../interfaces/Node';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import node from '../../services/node';
 
 const Layout = styled.form`
 	width: 100%;
@@ -26,11 +27,9 @@ export default function LoginView() {
 	const [search] = useSearchParams();
 	const [authStr, setAuthStr] = useState(search.get('auth') ?? '');
 
-	const authenticate = async (auth: string | NostrEvent) => {
+	const authenticate = async (auth: string | ((evt: EventTemplate) => Promise<VerifiedEvent>)) => {
 		setLoading(true);
 		try {
-			// @ts-expect-error
-			const node: NodeInterface = window.node;
 			await node.authenticate(auth);
 
 			if (node.authenticated) navigate('/', { replace: true });
@@ -47,23 +46,15 @@ export default function LoginView() {
 
 	const [loading, setLoading] = useState(false);
 	const loginWithNip07 = async () => {
-		setLoading(true);
 		try {
 			if (!window.nostr) throw new Error('Missing NIP-07 extension');
+			if (!node.challenge) throw new Error('No challenge string');
+			if (!node.connected) await node.connect();
 
-			// NOTE: find a better way to get the node
-			// @ts-expect-error
-			const node: NodeInterface = window.node;
-			if (!node.ws) throw new Error('Node not connected');
-
-			const draft = nip42.makeAuthEvent(node.ws.url, node.challenge);
-			const authEvent = await window.nostr.signEvent(draft);
-
-			await authenticate(authEvent);
+			await authenticate(async (draft) => window.nostr!.signEvent(draft));
 		} catch (error) {
 			if (error instanceof Error) alert(error.message);
 		}
-		setLoading(false);
 	};
 
 	// automatically send the auth if its set on mount

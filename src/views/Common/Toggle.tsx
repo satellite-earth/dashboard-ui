@@ -1,6 +1,7 @@
+import { MouseEventHandler } from 'react';
 import { COLORS } from '../../constants';
 
-export default ({ onClick, value }) => {
+export default function Toggle({ onClick, value }: { onClick: MouseEventHandler; value: boolean }) {
 	return (
 		<div
 			onClick={onClick}
@@ -26,4 +27,4 @@ export default ({ onClick, value }) => {
 			/>
 		</div>
 	);
-};
+}

@@ -1,6 +1,6 @@
 import { nip19 } from 'nostr-tools';
 
-export const formatDataSize = (n, options = {}) => {
+export const formatDataSize = (n: number, options: { kBMin?: number } = {}) => {
 	if (options.kBMin && n < 1000) {
 		return '0 KB';
 	}
@@ -16,7 +16,7 @@ export const formatDataSize = (n, options = {}) => {
 	}
 };
 
-export const normalizeId = (input) => {
+export const normalizeId = (input: string) => {
 	let npub, pubkey;
 
 	try {
@@ -39,8 +39,8 @@ export const normalizeId = (input) => {
 };
 
 // Deduplicate array while preserving order
-export const uniqueArray = (values) => {
-	const unique = [];
+export function uniqueArray<T>(values: T[]): T[] {
+	const unique: T[] = [];
 
 	for (let value of values) {
 		if (unique.indexOf(value) === -1) {
@@ -49,8 +49,4 @@ export const uniqueArray = (values) => {
 	}
 
 	return unique;
-
-	// const set = new Set(values);
-
-	// return Array.from(set);
-};
+}

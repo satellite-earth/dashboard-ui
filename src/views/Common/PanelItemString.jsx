@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import PanelItem from './PanelItem';
 import TextButton from '../../components/TextButton';
-import CopyButton from './CopyButton.jsx';
+import CopyButton from './CopyButton';
 
 class PanelItemString extends Component {
 	render = () => {

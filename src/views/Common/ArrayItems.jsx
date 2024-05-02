@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react';
 import TextButton from '../../components/TextButton';
-import Input from './Input.jsx';
+import Input from './Input';
 
 function InlineForm({ onCancel, onSubmit }) {
 	const [value, setValue] = useState('');

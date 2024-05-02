@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
+import styled from '@emotion/styled';
 
 import { COLORS } from '../../constants';
-import styled from '@emotion/styled';
 import TextButton from '../../components/TextButton';
 
 const StyledPanel = styled.div`
@@ -23,7 +23,11 @@ const StyledPanel = styled.div`
 	}
 `;
 
-function Panel({ label, children, className = '' }) {
+export default function Panel({
+	label,
+	children,
+	className = '',
+}: PropsWithChildren<{ className?: string; label?: string }>) {
 	const [open, setOpen] = useState(true);
 
 	return (
@@ -38,5 +42,3 @@ function Panel({ label, children, className = '' }) {
 		</StyledPanel>
 	);
 }
-
-export default Panel;
