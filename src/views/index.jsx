@@ -30,7 +30,7 @@ class App extends Component {
 	};
 
 	componentWillUnmount = () => {
-		node.disconnect();
+		node.close();
 
 		window.removeEventListener('resize', this.handleResize);
 	};

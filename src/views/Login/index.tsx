@@ -30,6 +30,7 @@ export default function LoginView() {
 	const authenticate = async (auth: string | ((evt: EventTemplate) => Promise<VerifiedEvent>)) => {
 		setLoading(true);
 		try {
+			if (!node.connected) await node.connect();
 			await node.authenticate(auth);
 
 			if (node.authenticated) navigate('/', { replace: true });
@@ -49,7 +50,6 @@ export default function LoginView() {
 		try {
 			if (!window.nostr) throw new Error('Missing NIP-07 extension');
 			if (!node.challenge) throw new Error('No challenge string');
-			if (!node.connected) await node.connect();
 
 			await authenticate(async (draft) => window.nostr!.signEvent(draft));
 		} catch (error) {

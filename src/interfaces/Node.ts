@@ -14,25 +14,21 @@ export default class NodeInterface extends Relay {
 	sentAuthId = '';
 	authPromise: Deferred<string> | null = null;
 
-	connect(): Promise<void> {
-		const p = super.connect();
+	async connect(): Promise<void> {
+		await super.connect();
 
 		// listen for open and close events
-		this.ws?.addEventListener('open', () => {
-			Model.dispatch({
-				type: 'conn/status',
-				data: { open: true },
-			});
-
-			this.ws?.addEventListener('close', () => {
-				Model.dispatch({
-					type: 'conn/status',
-					data: { open: false },
-				});
-			});
+		Model.dispatch({
+			type: 'conn/status',
+			data: { open: true },
 		});
 
-		return p;
+		this.ws?.addEventListener('close', () => {
+			Model.dispatch({
+				type: 'conn/status',
+				data: { open: false },
+			});
+		});
 	}
 
 	// Send control message to node
