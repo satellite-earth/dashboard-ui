@@ -18,7 +18,7 @@ if (isLocal) {
 	});
 }
 
-const node = new NodeInterface(params.get('url') || params.get('relay') || '/');
+const node = new NodeInterface(params.get('url') || params.get('relay') || 'ws://' + location.host);
 
 await node.connect();
 
